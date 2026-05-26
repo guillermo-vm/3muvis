@@ -1,0 +1,9 @@
+
+Date: 2026-05-25
+Dataset: htad
+Metric optimised: matthews_corrcoef
+Experiment iterations: 5
+Total iteration time: 2057.3 seconds
+K cross-validation folds: 5
+Initial seed: 13
+ML algorithms: ['LinearDiscriminantAnalysis', 'HistGradientBoostingClassifier', 'KNeighborsClassifier', 'NearestCentroid', 'SVC', 'DecisionTreeClassifier', 'ExtraTreesClassifier', 'RandomForestClassifier', 'SGDClassifier', 'GaussianNB', 'MultinomialNB', 'BernoulliNB']

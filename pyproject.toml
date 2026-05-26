@@ -1,0 +1,15 @@
+[project]
+name = "muvis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.7"
+dependencies = [
+    "matplotlib>=3.10.9",
+    "multiviewstacking>=0.7.5",
+    "numpy==1.26.4",
+    "pandas>=2.3.3",
+    "pyyaml>=6.0.3",
+    "scikit-learn==1.6.1",
+    "seaborn>=0.13.2",
+]

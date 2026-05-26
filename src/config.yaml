@@ -1,0 +1,74 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# 3MuViS Experiment Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+experiment:
+  n_iterations: 5          # number of train/test repetitions per dataset
+  initial_seed: 13          # base random seed (incremented each iteration)
+  test_size: 0.2            # fraction of data held out as test set
+  meta_split_size: 0.5      # fraction of training set used for meta-learner search
+  metric: "matthews_corrcoef"
+  k_folds_base: 5           # CV folds for base-learner search
+  k_folds_meta: 5           # CV folds for meta-learner search
+  run_brute_force: true     # set false to skip (slow on large datasets)
+
+output:
+  results_dir: "results"
+  summaries_dir: "results/summaries"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Datasets
+# Each entry:
+#   path        : relative path to CSV
+#   label_col   : name of the target column
+#   drop_cols   : columns to drop before splitting X / y
+#   views       : list of [start, end) index ranges  (Python-style, end exclusive)
+#   scale       : apply MinMaxScaler (true/false)
+# ─────────────────────────────────────────────────────────────────────────────
+datasets:
+
+  htad:
+    path: "../datasets/HTAD.csv"
+    label_col: "label"
+    drop_cols: ["userid"]
+    views:
+      - [0,  36]   # Audio MFCCs
+      - [36, 52]   # Accelerometer
+    scale: true
+
+  har70:
+    path: "../datasets/HAR70+.csv"
+    label_col: "label"
+    drop_cols: ["userid"]
+    views:
+      - [0,  19]   # Back accelerometer
+      - [19, 38]   # Thigh accelerometer
+    scale: true
+
+  multidigits:
+    path: "../datasets/multiview_digits.csv"
+    label_col: "digit"
+    drop_cols: []
+    views:
+      - [292, 356]  # Karhunen-Love coefficients
+      - [356, 596]  # Pixel averages
+    scale: true
+
+  transport:
+    path: "../datasets/transportation_sensors.csv"
+    label_col: "target"
+    drop_cols: ["time"]
+    views:
+      - [0, 4]    # Accelerometer
+      - [8, 12]   # Gyroscope
+    scale: true
+
+  berkeley:
+    path: "../datasets/berkeley.csv"
+    label_col: "class"
+    drop_cols: []
+    views:
+      - [0,  48]   # Kinect
+      - [48, 64]   # Accelerometer
+      - [64, 154]  # Microphone
+    scale: true
