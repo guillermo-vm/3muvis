@@ -60,32 +60,7 @@ This repository contains the full experiment pipeline, the analysis and reportin
 └── README.md
 ```
 
----
 
-## Datasets
-
-### Included
-
-| Dataset | Instances | Features | Views | Classes | Source |
-|---|---|---|---|---|---|
-| **HTAD** | 1,386 | 52 | 2 (Audio MFCCs, Accelerometer) | 6 | Included in `datasets/` |
-
-HTAD records audio and wrist-accelerometer signals while subjects perform home activities (sweeping, brushing teeth, washing hands, watching TV). Three users, user-balanced.
-
-### Not Included
-
-The following datasets were used in the study but are not distributed here due to intellectual property restrictions. They can be obtained from their original sources:
-
-| Dataset | Instances | Features | Views | Classes | Source |
-|---|---|---|---|---|---|
-| **HAR70+** | 11,263 | 40 | 2 (Back acc., Thigh acc.) | 7 | [UCI ML Repository](https://archive.ics.uci.edu/dataset/780/har70) |
-| **Multiview Digits** | 2,000 | 649 | 2 (KL coefficients, Pixel avg.) | 10 | [UCI ML Repository](https://archive.ics.uci.edu/dataset/72/multiple+features) |
-| **Transportation Sensors** | 5,893 | 36 | 2 (Accelerometer, Gyroscope) | 5 | [UCI ML Repository](https://archive.ics.uci.edu/dataset/426/transportation+mode+prediction+using+smartphones) |
-| **Berkeley MHAD** | — | 154 | 3 (Kinect, Accelerometer, Microphone) | — | [Berkeley MHAD](http://tele-immersion.citris-uc.org/berkeley_mhad) |
-
-Once downloaded, place each CSV in the `datasets/` directory and ensure the filenames and column names match the entries in `config.yaml`.
-
----
 
 ## Installation
 
