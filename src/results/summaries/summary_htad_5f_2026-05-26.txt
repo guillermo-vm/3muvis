@@ -10,3 +10,15 @@ ML algorithms: ['LinearDiscriminantAnalysis', 'HistGradientBoostingClassifier', 
 ----------------------------------------------
 Brute force time: 4975.2 seconds
 Seed: 13
+
+Date: 2026-05-26
+Dataset: htad
+Metric optimised: matthews_corrcoef
+Experiment iterations: 25
+Total iteration time: 10247.6 seconds
+K cross-validation folds: 5
+Initial seed: 13
+ML algorithms: ['LinearDiscriminantAnalysis', 'HistGradientBoostingClassifier', 'KNeighborsClassifier', 'NearestCentroid', 'SVC', 'DecisionTreeClassifier', 'ExtraTreesClassifier', 'RandomForestClassifier', 'SGDClassifier', 'GaussianNB', 'MultinomialNB', 'BernoulliNB']
+----------------------------------------------
+Brute force time: 5182.0 seconds
+Seed: 13

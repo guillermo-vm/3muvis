@@ -1,0 +1,9 @@
+
+Date: 2026-05-26
+Dataset: multidigits
+Metric optimised: matthews_corrcoef
+Experiment iterations: 1
+Total iteration time: 1844.0 seconds
+K cross-validation folds: 5
+Initial seed: 13
+ML algorithms: ['LinearDiscriminantAnalysis', 'HistGradientBoostingClassifier', 'KNeighborsClassifier', 'NearestCentroid', 'SVC', 'DecisionTreeClassifier', 'ExtraTreesClassifier', 'RandomForestClassifier', 'SGDClassifier', 'GaussianNB', 'MultinomialNB', 'BernoulliNB']

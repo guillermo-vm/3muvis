@@ -45,6 +45,7 @@ def _build_report(
     predict_time: float,
     search_time: float = 0.0,
     randopt_search_time: float = 0.0,
+    brute_force_search_time: float = 0.0
 ) -> dict:
     
     """Assemble the flat result dict that maps to one CSV row."""
@@ -60,6 +61,7 @@ def _build_report(
     report[metric]              = score
     report["3MuViS search time"] = search_time
     report["Randopt search time"] = randopt_search_time
+    report["Brute Force search time"] = brute_force_search_time
 
     for i, (view, bl) in enumerate(zip(views, base_learner_names)):
         report[f"view {i} base learner {view}"] = bl
@@ -277,6 +279,7 @@ def run_brute_force(
     t0 = time.time()
 
     for i in range(n_combs):
+        print(f"\r  [brute force] {i} combinations evaluated", end="", flush=True)
         indices        = [int(i / (n_alg ** p) % n_alg) for p in range(n_models)]
         meta_name_i    = catalog_keys[indices[0]]
         base_names_i   = [catalog_keys[j] for j in indices[1:]]

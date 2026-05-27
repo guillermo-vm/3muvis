@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 experiment:
-  n_iterations: 5          # number of train/test repetitions per dataset
+  n_iterations: 1         # number of train/test repetitions per dataset
   initial_seed: 13          # base random seed (incremented each iteration)
   test_size: 0.2            # fraction of data held out as test set
   meta_split_size: 0.5      # fraction of training set used for meta-learner search
@@ -71,4 +71,13 @@ datasets:
       - [0,  48]   # Kinect
       - [48, 64]   # Accelerometer
       - [64, 154]  # Microphone
+    scale: true
+
+  attacks:
+    path: "../datasets/attacks.csv"
+    label_col: "label"
+    drop_cols: ["attack_cat"]
+    views:
+      - [0,11]
+      - [11,19]
     scale: true
