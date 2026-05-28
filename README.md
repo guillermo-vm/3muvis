@@ -1,6 +1,6 @@
 # 3MuViS — Three-View Multi-View Stacking
 
-> **Heuristic optimization of multi-view stacking classifiers for human activity recognition**
+> **Optimization of multi-view stacking classifiers**
 > 
 > *Manuscript under review — citation will be added upon publication*
 
@@ -23,18 +23,14 @@
 
 ## Overview
 
-**3MuViS** is a heuristic algorithm that automates the selection of base learners and meta-learner in a multi-view stacking ensemble. Rather than exhaustively searching all possible classifier combinations — an NP-hard problem that grows as $12^{(n_\text{views}+1)}$ — 3MuViS decomposes the search into two sequential cross-validated stages:
-
-1. **Base-learner search** — for each view independently, select the classifier that maximises Matthews Correlation Coefficient (MCC) under k-fold cross-validation.
-2. **Meta-learner search** — given the selected base learners, select the meta-classifier that maximises MCC on a held-out meta-training split.
-
-This repository contains the full experiment pipeline, the analysis and reporting scripts, and the HTAD dataset used in the study.
+**3MuViS** is an algorithm that automates the selection of base learners and meta-learner in a multi-view stacking ensemble. Rather than exhaustively searching all possible classifier combinations — an NP-hard problem that grows exponentially — 3MuViS decomposes the search into two sequential cross-validated stages:
+This repository contains the full experiment pipeline, the analysis and reporting scripts, and the [HTAD](https://datasets.simula.no/htad/) dataset used in the study.
 
 ### Baselines
 
 | Method | Description |
 |---|---|
-| **Brute Force** | Exhaustive search over all $12^{(n_\text{views}+1)}$ combinations (upper bound) |
+| **Brute Force** | Exhaustive search over all stacking combinations |
 | **RF-MVS** | Multi-view stacking with Random Forest at every level |
 | **Random Choice** | Randomly sampled base and meta learners |
 | **RandOpt** | Randomly sampled base learners with heuristic meta-learner search |
@@ -81,6 +77,7 @@ python src/main.py
 
 # Specific datasets only
 python src/main.py --datasets htad
+
 
 # Skip brute-force search (much faster, useful for development)
 python src/main.py --datasets htad --no-brute-force
@@ -177,7 +174,7 @@ The HTAD dataset is distributed under its original terms. Please cite the origin
 For questions about the code or methodology, please open a GitHub Issue.
 
 For questions about the paper, contact the corresponding author at:  
-`<author-email@institution.edu>` *(to be updated upon publication)*
+`guillermovillegasmorales@gmail.com` *(to be updated upon publication)*
 
 ---
 
