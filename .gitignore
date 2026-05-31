@@ -17,10 +17,8 @@ __pycache__/
 # Data & Results
 # -----------------------------
 datasets/*
-analysis/*
 
 !datasets/htad.csv
-!analysis/D4 HTAD
 
 # If your summaries are auto-generated every run, consider uncommenting the next line:
 # src/results/summaries/
