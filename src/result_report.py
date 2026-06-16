@@ -219,7 +219,9 @@ def plot_violin_single(results: pd.DataFrame, col: str,
     fig, ax = plt.subplots(figsize=(8, 6))
     _violin_ax(ax, results, col, dataset_name, results)
     col_dict = {"matthews_corrcoef": "Matthew´s Correlation Coefficients",
-                "accuracy": "Accuracy"}
+                "accuracy": "Accuracy",
+                "Fit time": "Fit Time",
+                "Predict time": "Predict Time"}
     plt.tight_layout()
     plt.title(f"{col_dict.get(col, '')} distribution for dataset {dataset_name[0:2]}:{dataset_name[2:]}  by Method")
     plt.savefig(out_path, dpi=150, bbox_inches="tight")
@@ -440,11 +442,15 @@ def analyze_dataset(csv_path: str, out_root: str,
                           os.path.join(out_dir, "violin_weighted.png"),
                           sharey=True)
 
+    # ── Figure 4a: Fit/Predict time multi-violin ──────────────────────────
+    if existing_tm:
+        plot_violin_single(results, existing_tm[0], dataset_name,
+                          os.path.join(out_dir, "violin_times_fit.png"))
     # ── Figure 4: Fit/Predict time multi-violin ──────────────────────────
     if existing_tm:
-        plot_violin_multi(results, existing_tm, dataset_name,
-                          os.path.join(out_dir, "violin_times.png"),
-                          sharey=False)
+        plot_violin_single(results, existing_tm[1], dataset_name,
+                          os.path.join(out_dir, "violin_times_predict.png"))
+    
 
     # ── Figure 5: Wilcoxon table (MCC + all metrics) ────────────────────
     wdf = plot_wilcoxon_table(results, metrics, dataset_name,
