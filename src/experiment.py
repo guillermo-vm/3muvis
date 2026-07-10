@@ -15,8 +15,9 @@ import time
 
 import numpy as np
 from sklearn.metrics import classification_report, get_scorer
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GroupShuffleSplit
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.utils import resample
 from multiviewstacking import MultiViewStacking
 
 from muvis_core import (
@@ -252,15 +253,30 @@ def run_randopt(
 def run_brute_force(
     X: np.ndarray, y: np.ndarray,
     views, metric, metric_func, encoder,
-    seed, k_folds,
+    seed, k_folds, user_col = None
 ) -> dict:
     """
     Exhaustive search over all model combinations.
     Uses a single fixed train/test split (seed=initial_seed).
     """
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=seed, stratify=y,
-    )
+    if user_col is not None:
+        gss = GroupShuffleSplit(n_splits = 1, test_size= 0.20, random_state= seed)
+        fold = list(gss.split(X, y, groups= user_col))
+
+        train_idx, test_idx = next(gss.split(X, y, groups=user_col))
+
+        X_train = X[train_idx]
+        X_test  = X[test_idx]
+        y_train = y[train_idx]
+        y_test  = y[test_idx]
+
+        print(f"train users({len(user_col[train_idx].unique())}): {user_col[train_idx].unique()} \n test indexes({len(user_col[test_idx].unique())}): {user_col[test_idx].unique()}")
+
+    else:
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, random_state=seed, stratify=y,
+        )
+
     scaler = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test  = scaler.transform(X_test)
@@ -323,6 +339,11 @@ def run_brute_force(
         fit_time=fit_time, predict_time=predict_time,
     )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Train test split, according to dataset specific case
+# ─────────────────────────────────────────────────────────────────────────────
+
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Full single-iteration runner
@@ -339,6 +360,7 @@ def run_iteration(
     k_folds_base: int,
     k_folds_meta: int,
     test_size: float,
+    user_col: np.ndarray = None
 ) -> list[dict]:
     """
     One full train/test iteration: splits, scales, runs all four methods,
@@ -346,9 +368,40 @@ def run_iteration(
     """
     metric_func = get_scorer(metric)._score_func
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=seed, stratify=y,
+    # Declare iteration Group Shuffle Split generator
+    gss = GroupShuffleSplit(n_splits = 1, test_size= 0.20, random_state= seed)
+    
+    if user_col is not None:
+        fold = list(gss.split(X, y, groups= user_col))
+
+        train_idx, test_idx = next(gss.split(X, y, groups=user_col))
+
+        X_train_initial = X[train_idx]
+        X_test  = X[test_idx]
+
+        y_train_initial = y[train_idx]
+        y_test  = y[test_idx]
+
+        user_train_initial = user_col[train_idx]
+
+        print(f"train users({len(user_col[train_idx].unique())}): {user_col[train_idx].unique()} \n test indexes({len(user_col[test_idx].unique())}): {user_col[test_idx].unique()}")
+        
+
+        X_train, y_train, user_train_resampled = resample(
+        X_train_initial,
+        y_train_initial,
+        user_train_initial,
+        replace=False,                # Crucial: enables bootstrapping (with replacement)
+        n_samples=int(0.80 * len(X_train_initial)), # Keeps the training set at its 80% size boundary
+        random_state=seed            # Guarantees reproducibility
     )
+        print(f"Original Train size: {len(X_train_initial)} | Bootstrapped Train size: {len(X_train)}")
+
+    else:
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=seed, stratify=y,
+        )
+
     scaler  = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test  = scaler.transform(X_test)

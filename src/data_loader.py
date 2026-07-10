@@ -25,6 +25,7 @@ def load_dataset(
         path       – path to CSV file
         label_col  – name of the target column
         drop_cols  – list of columns to drop (e.g. user IDs)
+        user_col   - name of the user ID column
         views      – list of [start, end] pairs (end-exclusive index ranges)
 
     Returns
@@ -39,9 +40,13 @@ def load_dataset(
     label_col = dataset_cfg["label_col"]
     drop_cols = dataset_cfg.get("drop_cols", [])
     view_cfg  = dataset_cfg["views"]          # list of [start, end] pairs
+    user_col = dataset_cfg.get("user_col") or False
 
     df = pd.read_csv(path)
 
+    # User column array
+    user_col_arr = df[user_col]
+    
     # Drop auxiliary columns
     cols_to_drop = [c for c in drop_cols if c in df.columns]
     if cols_to_drop:
@@ -59,4 +64,6 @@ def load_dataset(
     # Build view index lists from [start, end) ranges
     views: list[list[int]] = [list(range(start, end)) for start, end in view_cfg]
 
-    return X, y, views, encoder
+
+
+    return X, y, views, encoder, user_col_arr

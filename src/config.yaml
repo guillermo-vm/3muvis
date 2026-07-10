@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 experiment:
-  n_iterations: 1         # number of train/test repetitions per dataset
+  n_iterations: 0         # number of train/test repetitions per dataset
   initial_seed: 13          # base random seed (incremented each iteration)
   test_size: 0.2            # fraction of data held out as test set
   meta_split_size: 0.5      # fraction of training set used for meta-learner search
@@ -11,6 +11,7 @@ experiment:
   k_folds_base: 5           # CV folds for base-learner search
   k_folds_meta: 5           # CV folds for meta-learner search
   run_brute_force: true     # set false to skip (slow on large datasets)
+  subject_dependant: true   # perform subject dependant train-test splits
 
 output:
   results_dir: "results"
@@ -31,6 +32,7 @@ datasets:
     path: "../datasets/HTAD.csv"
     label_col: "label"
     drop_cols: ["userid"]
+    user_col: "userid"
     views:
       - [0,  36]   # Audio MFCCs
       - [36, 52]   # Accelerometer
@@ -40,6 +42,7 @@ datasets:
     path: "../datasets/HAR70+.csv"
     label_col: "label"
     drop_cols: ["userid"]
+    user_col: "userid"
     views:
       - [0,  19]   # Back accelerometer
       - [19, 38]   # Thigh accelerometer
@@ -66,6 +69,7 @@ datasets:
   berkeley:
     path: "../datasets/berkeley.csv"
     label_col: "class"
+    user_col: "userid"
     drop_cols: []
     views:
       - [0,  48]   # Kinect

@@ -72,8 +72,8 @@ def run_dataset(
     print(f"{'='*60}")
 
     # ── Load data ──────────────────────────────────────────────────────
-    X, y, views, encoder = load_dataset(dataset_cfg)
-    print(f"  X={X.shape}  classes={list(encoder.classes_)}  views={len(views)}")
+    X, y, views, encoder, user_col = load_dataset(dataset_cfg)
+    print(f"  X={X.shape}  classes={list(encoder.classes_)}  views={len(views)}, user column = {user_col}")
 
     # ── Experiment parameters ──────────────────────────────────────────
     n_iterations  = exp_cfg["n_iterations"]
@@ -112,6 +112,7 @@ def run_dataset(
             k_folds_base=k_folds_base,
             k_folds_meta=k_folds_meta,
             test_size=test_size,
+            user_col= user_col
         )
         global_results.extend(iteration_results)
 
@@ -149,6 +150,7 @@ def run_dataset(
             encoder=encoder,
             seed=initial_seed,
             k_folds=k_folds_meta,
+            user_col= user_col
         )
         brute_time = time.time() - t_brute_start
         global_results.append(bf_result)
