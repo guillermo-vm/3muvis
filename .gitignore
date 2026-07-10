@@ -20,6 +20,9 @@ datasets/*
 
 !datasets/htad.csv
 
+src/results/*
+analysis/*
+
 # If your summaries are auto-generated every run, consider uncommenting the next line:
 # src/results/summaries/
 
@@ -27,6 +30,7 @@ datasets/*
 # Jupyter Notebooks
 # -----------------------------
 .ipynb_checkpoints/
+notebooks/
 
 # -----------------------------
 # Distribution / Packaging
